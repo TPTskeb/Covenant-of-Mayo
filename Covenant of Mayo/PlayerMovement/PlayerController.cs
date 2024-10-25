@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
     Rigidbody2D rb2D;
-    public TextMeshProUGUI collectedText;
-    public static int collectedAmount = 0;
 
     public GameObject bulletPrefab;
     public float LastFire;
@@ -36,7 +34,6 @@ public class PlayerController : MonoBehaviour
         // Calculate movement vector and set velocity
         Vector2 movement = new Vector2(horizontal, vertical) * speed;
         rb2D.velocity = movement;
-        collectedText.text = "items Collected: " + collectedAmount;
     }
 
     //Shooting Bullets
