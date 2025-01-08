@@ -19,6 +19,7 @@ public enum EnemyState
 public class EnemyController : MonoBehaviour
 {
 
+    public HealthManager healthManager;
     GameObject Player;
     public EnemyState currentState = EnemyState.Wander;
     public float range;
@@ -99,6 +100,13 @@ private bool IsPlayerInRange(float range)
         transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.deltaTime);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            healthManager.TakeDamage(1);
+        }
+    }
 
     public void Death()
     {
