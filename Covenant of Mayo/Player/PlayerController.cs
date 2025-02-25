@@ -23,28 +23,39 @@ public class PlayerController : MonoBehaviour
         float horizontal = UnityEngine.Input.GetAxis("Horizontal");
         float vertical = UnityEngine.Input.GetAxis("Vertical");
 
+        // Movement
+        Vector2 movement = new Vector2(horizontal, vertical) * speed;
+        rb2D.velocity = movement;
+
+        // Shooting with controller/keyboard
         float shootHor = UnityEngine.Input.GetAxis("ShootHorizontal");
         float shootVer = UnityEngine.Input.GetAxis("ShootVertical");
+
         if ((shootHor != 0 || shootVer != 0) && Time.time > LastFire + FireDelay)
         {
-            Shoot(shootHor,shootVer);
+            Shoot(shootHor, shootVer);
             LastFire = Time.time;
         }
 
-        // Calculate movement vector and set velocity
-        Vector2 movement = new Vector2(horizontal, vertical) * speed;
-        rb2D.velocity = movement;
+        // Shooting with mouse
+        if (UnityEngine.Input.GetMouseButtonDown(0) && Time.time > LastFire + FireDelay)
+        {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+            Vector2 shootDirection = (mousePosition - (Vector2)transform.position).normalized;
+
+            Shoot(shootDirection.x, shootDirection.y);
+            LastFire = Time.time;
+        }
     }
 
-    //Shooting Bullets
-   void Shoot(float x, float y)
+    // Shooting Bullets
+    void Shoot(float x, float y)
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.AddComponent<Rigidbody2D>();
         bulletRb.gravityScale = 0;
-        Vector2 bulletVelocity = new Vector2(x , y).normalized * bulletSpeed;
 
-        // Set the bullet's velocity    
+        Vector2 bulletVelocity = new Vector2(x, y) * bulletSpeed;
         bulletRb.velocity = bulletVelocity;
     }
 }

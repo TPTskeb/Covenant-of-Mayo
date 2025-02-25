@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 
     public static GameController instance;
 
-    private static float moveSpeed = 5f;
+    private static float moveSpeed = 0.1f;
     private static float fireRate = 1f;
     public static float MoveSpeed { get => moveSpeed; set => moveSpeed = value; } 
     public static float FireRate { get => fireRate; set => fireRate = value; }
